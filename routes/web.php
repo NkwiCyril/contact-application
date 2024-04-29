@@ -2,21 +2,20 @@
 
 use Illuminate\Support\Facades\Route;
 
+Route::get('/', function () {
+    $html = "
+        <h1>Contact App</h1>
+        <div>
+            <a href='" . route('contacts.index') . "'>All Contacts</a>
+            <a href='" . route('contacts.create') . "'>Create Contact</a>
+            <a href='" . route('contact.show', 1) . "'>Show Contact</a>
+        </div>
+    ";
+
+    return $html;
+});
 
 Route::prefix('admin')->group(function () {
-    Route::get('/', function () {
-        $html = "
-            <h1>Contact App</h1>
-            <div>
-                <a href='" . route('contacts.index') . "'>All Contacts</a>
-                <a href='" . route('contacts.create') . "'>Create Contact</a>
-                <a href='" . route('contact.show', 1) . "'>Show Contact</a>
-            </div>
-        ";
-
-        return $html;
-    });
-
     Route::get('/contacts', function () {
         return '<h1>All contacts</h1>';
     })->name('contacts.index');
@@ -39,5 +38,9 @@ Route::prefix('admin')->group(function () {
         }
 
     })->whereAlphaNumeric('name');
+});
+
+Route::fallback(function() {
+    return '<h1>Sorry! Service unable to load</h1>';
 });
 
