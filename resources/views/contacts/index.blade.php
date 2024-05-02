@@ -11,8 +11,8 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Varela+Round">
   <!-- Bootstrap -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-  <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/css/custom.css" rel="stylesheet">
+  <link href="{{asset('assets/css/bootstrap.min.css')}}" rel="stylesheet">
+  <link href="{{asset('assets/css/custom.css')}}" rel="stylesheet">
 </head>
 
 <body>
@@ -59,7 +59,7 @@
               <div class="d-flex align-items-center">
                 <h2 class="mb-0">All Contacts</h2>
                 <div class="ml-auto">
-                  <a href="form.html" class="btn btn-success"><i class="fa fa-plus-circle"></i> Add New</a>
+                  <a href="{{route('contacts.create')}}" class="btn btn-success"><i class="fa fa-plus-circle"></i> Add New</a>
                 </div>
               </div>
             </div>

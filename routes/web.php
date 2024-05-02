@@ -1,141 +1,31 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CompaniesController;
+use App\Http\Controllers\ContactsController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function() {
-    return view('welcome');
-})->name('welcome');
+// routes associated with contacts
+Route::get('/',[ContactsController::class, 'welcome'])->name('welcome');
+Route::get('contacts', [ContactsController::class, 'index'])->name('contacts.index');
+Route::get('contacts/create',[ContactsController::class, 'create'])->name('contacts.create');
 
-/**
- * ================
- * contacts routes
- * ================
-**/
-Route::get('/contacts', function () {
-    $contacts = [
-        1 => [
-            'firstname' => 'John',
-            'lastname' => 'Doe',
-            'email' => 'john@example.com',
-            'company' => 'ABC Inc.'
-        ],
-        2 => [
-            'firstname' => 'Jane',
-            'lastname' => 'Smith',
-            'email' => 'jane@example.com',
-            'company' => 'XYZ Corp.'
-        ],
-        3 => [
-            'firstname' => 'Alice',
-            'lastname' => 'Johnson',
-            'email' => 'alice@example.com',
-            'company' => '123 Industries'
-        ],
-        4 => [
-            'firstname' => 'Michael',
-            'lastname' => 'Brown',
-            'email' => 'michael@example.com',
-            'company' => 'DEF Co.'
-        ],
-        5 => [
-            'firstname' => 'Emily',
-            'lastname' => 'Davis',
-            'email' => 'emily@example.com',
-            'company' => '456 Corp.'
-        ],
-        6 => [
-            'firstname' => 'William',
-            'lastname' => 'Wilson',
-            'email' => 'william@example.com',
-            'company' => 'GHI Ltd.'
-        ],
-        7 => [
-            'firstname' => 'Sophia',
-            'lastname' => 'Lee',
-            'email' => 'sophia@example.com',
-            'company' => '789 Enterprises'
-        ],
-        8 => [
-            'firstname' => 'Daniel',
-            'lastname' => 'Taylor',
-            'email' => 'daniel@example.com',
-            'company' => 'JKL Corp.'
-        ],
-        9 => [
-            'firstname' => 'Olivia',
-            'lastname' => 'Martinez',
-            'email' => 'olivia@example.com',
-            'company' => 'MNO Tech'
-        ],
-        10 => [
-            'firstname' => 'Matthew',
-            'lastname' => 'Anderson',
-            'email' => 'matthew@example.com',
-            'company' => 'PQR Solutions'
-        ]
-    ];
-    return view('contacts.index', [
-        'contacts' => $contacts,
-    ]);
-})->name('contacts.index');
+Route::get('contacts/{id}', [ContactsController::class, 'show'])->name('contacts.show');
+Route::get('contacts/edit/{id}', [ContactsController::class, 'edit'])->name('contact.edit');
+// Route::patch('contacts/edit/{id}', [ContactsController::class, 'edit'])->name('contact.edit');
+Route::post('contacts/update/{id}', [ContactsController::class, 'update'])->name('contact.update');
+Route::delete('contacts/{id}', [ContactsController::class, 'delete'])->name('contact.delete');
 
-Route::get('/contacts/create', function () {
-    return view('contacts.create');
-})->name('contacts.create');
-
-Route::get('/contacts/{id}', function ($id) {
-    return view('contacts.show', [
-        'id' => $id,
-    ]);
-})->name('contacts.show');
-
-Route::get('/contacts/edit/{id}', function ($id) {
-    return view('contacts.edit', [
-        'id' => $id,
-    ]);
-})->name('contact.edit');
+// routes associated with companies
+Route::get('companies/{name?}', [CompaniesController::class, 'find_company'])->whereAlphaNumeric('name');
 
 
+// routes associated with authentication
+Route::get('login', [AuthController::class, 'login']);
+Route::get('register', [AuthController::class. 'register']);
+Route::get('logout', [AuthController::class. 'logout']);
 
 
-/**
- * ================
- * companies routes
- * ================
-**/
-Route::get('/companies/{name?}', function ($name = null) {
-    if ($name) {
-        return '<h1>Company Name: ' . $name . '</h1>';
-
-    } else {
-        return '<h1>All Companies</h1>';
-    }
-
-})->whereAlphaNumeric('name');
-
-Route::fallback(function () {
-    return '<h1>Sorry! Service unable to load</h1>';
-});
-
-/**
- * =====================
- * authentication routes
- * =====================
-**/
-
-Route::get('login', function() {
-    return view('auth.login');
-});
-
-Route::get('register', function() {
-    return view('auth.register');
-}); 
-
-/**===============
- * profile routes
- * ===============  
- **/
-
-Route::get('profile', function() {
-    return view('user.profile');
-});
+// routes for user profile
+Route::get('profile', [ProfileController::class, 'index'])->name('profile');
